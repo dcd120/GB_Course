@@ -21,7 +21,7 @@ namespace NikolayTools
 
         public static void pause()
         {
-            Console.Write("(для продолжения нажмите любую клавишу...)");
+            Console.WriteLine("(для продолжения нажмите любую клавишу...)");
             Console.ReadKey();
         }
     }
