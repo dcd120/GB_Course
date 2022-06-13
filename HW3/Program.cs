@@ -7,13 +7,7 @@ using NikolayTools;
 
 namespace HW3
 {
-    /*
- 
-    3. *Описать класс дробей — рациональных чисел, являющихся отношением двух целых чисел. Предусмотреть методы сложения, вычитания, умножения и деления дробей. Написать программу, демонстрирующую все разработанные элементы класса.
-    Добавить свойства типа int для доступа к числителю и знаменателю;
-    Добавить свойство типа double только на чтение, чтобы получить десятичную дробь числа; ** Добавить проверку, чтобы знаменатель не равнялся 0. Выбрасывать исключение ArgumentException("Знаменатель не может быть равен 0"); *** Добавить упрощение дробей.
-    Достаточно решить 2 задачи. Все программы сделать в одном решении.
-    */
+
 
     class ComplexClass
     {
@@ -97,6 +91,38 @@ namespace HW3
 
     internal class Program
     {
+        static void tryFrationsDemo()
+        {
+            int nu;
+            int de;
+            // работа с дробями
+            // запросим пользователя ввести 2 дроби, и проделаем с ними все доступные операции
+            Console.WriteLine("Тестирование дробей");
+            Console.Write("Введите числитель первой дроби:");
+            nu = int.Parse(Console.ReadLine());
+            Console.Write("Введите знаменатель первой дроби:");
+            de = int.Parse(Console.ReadLine());
+            Fractions A = new Fractions(nu, de);
+            Console.Write("Введите числитель второй дроби:");
+            nu = int.Parse(Console.ReadLine());
+            Console.Write("Введите знаменатель второй дроби:");
+            de = int.Parse(Console.ReadLine());
+            Fractions B = new Fractions(nu, de);
+            Console.WriteLine();
+            Console.WriteLine("Вы ввели дроби {0} и {1}", A, B);
+            Fractions C = Fractions.Sum(A, B);
+            Console.WriteLine("{0} + {1} = {2} ({3:f4}) ({4})",A,B,C,C.Dec,Fractions.Simplefy(C));
+            EasyTools.pause();
+            Fractions D = Fractions.Minus(A, B);
+            Console.WriteLine("{0} - {1} = {2} ({3:f4}) ({4})", A,B,D,D.Dec,Fractions.Simplefy(D));
+            EasyTools.pause();
+            Fractions E = Fractions.Multi(A, B);
+            Console.WriteLine("{0} * {1} = {2} ({3:f4}) ({4})", A,B,E,E.Dec,Fractions.Simplefy(E));
+            EasyTools.pause();
+            Fractions F = Fractions.Div(A, B);
+            Console.WriteLine("{0} / {1} = {2} ({3:f4}) ({4})", A,B,F,F.Dec,Fractions.Simplefy(F));
+            EasyTools.pause();
+        }
         /*
          * 2. а) С клавиатуры вводятся числа, пока не будет введён 0 (каждое число в новой строке). 
          * Требуется подсчитать сумму всех нечётных положительных чисел.Сами числа и сумму вывести на экран, 
@@ -180,6 +206,7 @@ namespace HW3
             Console.WriteLine("(1) Демонстрация работы со структурой Комплексные числа");
             Console.WriteLine("(2) Демонстрация работы с классом Комплексные числа");
             Console.WriteLine("(3) Суммирование неотрицательных положительных через tryParse");
+            Console.WriteLine("(4) Демонстрация работы с простыми дробями");
         }
 
         static bool selector()
@@ -197,7 +224,9 @@ namespace HW3
                 case 3:
                     tryParseDemo();
                     return true;
-
+                case 4:
+                    tryFrationsDemo();
+                    return true;
 
                 default: return false;
             }

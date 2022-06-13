@@ -8,6 +8,21 @@ namespace NikolayTools
 {
     public class EasyTools
     {
+        public static int NOD(int x, int y)
+        {
+            if (x < 0) x = -x;
+            if (y < 0) y = -y;
+            if (x == 0 || y == 0) return 1;
+            while (x != y)
+            {
+                
+                if (x > y)
+                    x = x - y;
+                else
+                    y = y - x;
+            }
+            return x;
+        }
         public static void printInfo(int homeWorkNumber)
         {
             
