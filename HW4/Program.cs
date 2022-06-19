@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using NikolayTools;
+using NikolayData;
 
 namespace HW4
 {
@@ -34,14 +36,115 @@ namespace HW4
     **/
     internal class Program
     {
-        
+        static void DDADemo()
+        {
+            EasyDoubleArray myArray = new EasyDoubleArray(10, 10, 100);
+            Console.WriteLine("Работа с двумерным массивом");
+            Console.WriteLine(myArray);
+            int i;
+            int j;
+            myArray.MaxCoordinates(out i, out j);
+            Console.WriteLine("Максимальное значение: {0} с координатами в массиве: ({1},{2})",myArray.Max,i+1,j+1);
+            Console.WriteLine($"Минимальное значение: {myArray.Min}");
+            Console.WriteLine($"Сумма всех элементов: {myArray.SumOfAllElements()}");
+            Console.WriteLine($"Сумма всех элементов, больше 50: {myArray.SumOfAllElements(50)}");
+            // сохраним в файл и загрузим из него
+            myArray.SaveDataToFile(AppDomain.CurrentDomain.BaseDirectory + "DBL.txt");
+            EasyDoubleArray myArray2 = new EasyDoubleArray(AppDomain.CurrentDomain.BaseDirectory + "DBL.txt");
+            Console.WriteLine(myArray2);
+        }
+        static void LoginEmulator()
+        {
+            Console.WriteLine("Эмуляция аутентификации пользователя");
+            Console.WriteLine("У вас есть 3 попытки ввести правильную комбинацию login/password");
+            int count = 3;
+            string login;
+            string password;
+            String path = AppDomain.CurrentDomain.BaseDirectory + "users.txt";
+            Account[] accounts = LoadPasswordsFromFile(path);
+
+            while (count > 0)
+            {
+                count--;
+                Console.Write("Введите логин:");
+                login = Console.ReadLine();
+                Console.Write("Введите пароль:");
+                password = Console.ReadLine();
+                if (tryLogin(login, password, accounts))
+                {
+                    Console.WriteLine("Успешная авторизация!");
+                    EasyTools.pause();
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Пара логин/пароль не верна!");
+                    if (count > 0) Console.WriteLine("Попробуйте снова. (Осталось {0} попыток)", count);
+                }
+            }
+            Console.WriteLine("Вы привысили допустимое количество попыток.");
+            EasyTools.pause();
+        }
+
+        static Account[] LoadPasswordsFromFile(String fileName)
+        {
+
+            StreamReader streamReader = new StreamReader(fileName);
+            //  Считываем количество элементов массива
+            int max = int.Parse(streamReader.ReadLine());
+            Account[] accounts = new Account[max];
+            //  Считываем массив
+            for (int i = 0; i < max; i++)
+            {
+                string[] parts = streamReader.ReadLine().Split(new char[] { ' ' });
+                accounts[i].login = parts[0];
+                accounts[i].password = parts[1];
+            }
+            streamReader.Close();
+            return accounts;
+        }
+        static bool tryLogin(string login, string pass, Account[] accounts )
+        {
+            for (int i = 0; i < accounts.Length; i++)
+            {
+                if ((login == accounts[i].login) && (pass == accounts[i].password)) return true; 
+            }
+            return false;
+        }
+
         static void Main(string[] args)
         {
             EasyTools.printInfo(4);
+
+            DDADemo();
+            EasyTools.pause();
+            return;
+
             int[] array0 = new int[20];
             MyArray.FillArray(array0, -10000, 10001);
             int[] array1 = new int[5] { 6, 2, 9, -3, 6 };
             MyArray.PrintPairs(array1, 3);
+
+            // демонстрация работы с классом из библиотеки
+            Console.WriteLine("Создадим массив из 10 элементов, от 0 и с шагом 2");
+            EasyArray myArray = new EasyArray(10, 0, 2);
+            Console.WriteLine(myArray);
+            EasyTools.pause();
+            Console.WriteLine("Умножим на 2");
+            myArray.Multi(2);
+            Console.WriteLine(myArray);
+            EasyTools.pause();
+            Console.WriteLine("Создадим второй, где все элементы инвертированы");
+            EasyArray invArray = myArray.Inverse();
+            Console.WriteLine(invArray);
+            Console.WriteLine($"Количество максимальных значений в массиве: {myArray.MaxCount}, сумма всех чисел в массиве: {myArray.Sum}");
+            EasyTools.pause();
+            Console.WriteLine(myArray.CalcInserts().ToString());
+            EasyTools.pause();
+
+            LoginEmulator();
+            EasyTools.pause();
+
         }
     }
 }

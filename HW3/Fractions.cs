@@ -22,7 +22,6 @@ namespace HW3
     {
         int nu;
         int de;
-        double dec;
 
         static public Fractions Simplefy(Fractions x)
         { 
