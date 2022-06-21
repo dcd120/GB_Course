@@ -118,7 +118,6 @@ namespace HW4
 
             DDADemo();
             EasyTools.pause();
-            return;
 
             int[] array0 = new int[20];
             MyArray.FillArray(array0, -10000, 10001);
